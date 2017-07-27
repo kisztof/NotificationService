@@ -1,0 +1,14 @@
+{
+  "name": "mint-notification-service",
+  "version": "1.0.0",
+  "description": "Mint Notification Service",
+  "main": "app.js",
+  "author": "Krzysztof Słomka <krzysztof.slomka@mintsoftware.pl",
+  "license": "MIT",
+  "dependencies": {
+    "amqplib": "^0.5.1",
+    "dotenv": "4.0.0",
+    "socket.io": "2.0.3",
+    "winston": "2.3.1"
+  }
+}

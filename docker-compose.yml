@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+    node:
+        image: node:8.2 
+        depends_on:
+            - rabbitmq
+        ports:
+            - "8888:8888"
+            - "443:443"
+        links:
+            - rabbitmq
+        volumes:
+            - ./server:/var/www/server
+        working_dir: /var/www/server
+        command: 
+            - sh ./run.sh
+
+    rabbitmq:
+        image: rabbitmq:3.6-management
+        ports:
+            - "15672:15672"

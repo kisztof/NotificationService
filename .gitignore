@@ -1,0 +1,5 @@
+.idea
+server/node_modules
+server/logs
+server/.env
+var/rabbitmq
