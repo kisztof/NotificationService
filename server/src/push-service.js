@@ -28,20 +28,26 @@ exports.checkQueueAndSendMessage = function (connection, logger) {
 
                     logger.info('Channel consume', mpqMessage);
                     if (mpqMessage.attributes.global === false) {
-                        if (mpqMessage.type === 'error') {
-                            mpqMessage.attributes.recipients.forEach(function (recipientHash) {
-                                channel = '/user/' + recipientHash + '/notification/error';
-                                io.sockets.emit(channel, mpqMessage);
-                                logger.info('channel', channel);
-                            });
+                        mpqMessage.attributes.channels.forEach(function (channelHash) {
+                            channel = '/notification/' + mpqMessage.type + '/' + channelHash + '/channel';
+                            io.sockets.emit(channel, mpqMessage);
+                            logger.info('channel', channel);
+                        });
 
-                            handler.ack(msg);
-                        }
+                        handler.ack(msg);
+                    } else if (mpqMessage.attributes.global === true) {
+                            channel = '/notification/global';
+                            io.sockets.emit(channel, mpqMessage);
+                            logger.info('channel', channel);
+
+                        handler.ack(msg);
                     }
                 }
+                return true;
             });
+
         });
 
         return channel;
-    });
+    }).then(null, logger.error());
 };
